@@ -3,27 +3,66 @@
 {%block content %}
 
 {% load static %}
-
-
-<div class="postlist">
-<div id="contents">
-    
-        <br><br>
-            <br><br>
-            {% if list %}
-                {% for unit in list %}
-                <div id="content">  
-                    제목 | {{unit.title}}<br> 
-                    작성자 | {{unit.writer}}<br>
-                    설명 |  {{unit.summary}} 
-                    <a class="toNext" href="{% url 'detailPage' unit.id%}">...더보기</a><br>
-            </div>
-            <br>
-            {% endfor %}
-            <br>
-        {% elif search_term %}<!-- 검색란이 공란인지 확인-->
-            <b><i>Search Word({{ search_term }}) Not Found</i></b>
-        {% endif %}
-    </div>
+<div class="viewport-header">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb has-arrow">
+        <li class="breadcrumb-item">
+          <a href="#">Search</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+           검색결과
+        </li>
+      </ol>
+    </nav>
 </div>
+ 
+<div class="col-lg-12">
+    
+      <div class="grid">
+        <div class="item-wrapper">
+          <div class="table-responsive">
+            {% if list %}
+            <table class="table info-table">
+              <thead>
+                <tr>
+                  <th style="width: 10%;">제목</th>
+                  <th style="width: 10%;">작성자</th>
+                  <th style="width: 70%;">내용</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for unit in list %}
+                  <tr> 
+                    <td style="width: 10%;">{{unit.title}}</td>
+                    <td style="width: 10%;">{{unit.writer}}</td>
+                    <td style="width: 70%;"><a class="toNext" href="{% url 'detailPage' unit.id%}">{{unit.summary}}</a> </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else%}<!-- 검색란이 공란인지 확인-->
+            <b><i>{{ search_key }}에 대한 검색이 없습니다</i></b>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page">
+        {% if posts.has_previous %}
+            <!--이전페이지가 있다면-->
+            <a href="?page=1">1</a> <!-- url을 그냥 써주면 됨-->
+            <a href="?page={{posts.previous_page_number}}">◀</a>
+            {% endif %}
+    
+            <span>{{posts.number}}</span>
+            <span>of</span>
+            <span>{{posts.paginator.num_pages}}</span>
+    
+            {% if posts.has_next %}
+            <!--다음페이지가 있다면-->
+            <a href="?page={{posts.next_page_number}}">▶</a>
+            <a href="?page={{posts.paginator.num_pages}}">{{posts.paginator.num_pages}}</a>
+        {% endif %}
+        </div>
 {%endblock%}

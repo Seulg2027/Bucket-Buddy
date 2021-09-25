@@ -1,6 +1,4 @@
-{% extends 'shared/base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'shared/base.html' %} {% load static %} {% block content %}
 <div class="viewport-header">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb has-arrow">
@@ -27,24 +25,43 @@
           </thead>
           <tbody>
             {% for bucket in buckets %}
-              <tr>
-                <th style="width: 10%;">{{ bucket.id }}</th>
-                <td style="width: 10%;">{{ bucket.category }}</td>
-                <td style="width: 10%;">{{ bucket.writer }}</td>
-                <td style="width: 70%;">{{ bucket.content }}</td>
-                {% if request.user == bucket.writer %}
-                  <td class="btn-group">
-                    <button type="button" class="btn btn-trasnparent action-btn btn-xs component-flat pr-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="mdi mdi-dots-vertical"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="{% url 'buckets:update' bucket.id %}">수정</a>
-                      <a class="dropdown-item" href="{% url 'buckets:delete' bucket.id %}">삭제</a>
-                    </div>
-                  </td>
-                {% else %}
-                {% endif %}
-              </tr>
+            <tr>
+              <th style="width: 10%;">{{ bucket.id }}</th>
+              <td style="width: 10%;">{{ bucket.category }}</td>
+              <td style="width: 10%;">
+                <a href="{% url 'user:mypage' bucket.writer.id %}">
+                  {{ bucket.writer }}
+                </a>
+              </td>
+              <td style="width: 70%;">{{ bucket.content }}</td>
+              {% if request.user == bucket.writer %}
+              <td class="btn-group">
+                <button
+                  type="button"
+                  class="btn btn-trasnparent action-btn btn-xs component-flat pr-0"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="mdi mdi-dots-vertical"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'buckets:update' bucket.id %}"
+                  >
+                    수정
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'buckets:delete' bucket.id %}"
+                  >
+                    삭제
+                  </a>
+                </div>
+              </td>
+              {% else %} {% endif %}
+            </tr>
             {% endfor %}
           </tbody>
         </table>
@@ -55,15 +72,17 @@
 
 <div>
   {% if buckets.has_previous %}
-    <a href="?page=1">1</a>
-    <a href="?page={{buckets.previous_page_number}}">◀</a>
+  <a href="?page=1">1</a>
+  <a href="?page={{buckets.previous_page_number}}">◀</a>
   {% endif %}
   <span>{{buckets.number}}</span>
   <span>of</span>
   <span>{{buckets.paginator.num_pages}}</span>
   {% if buckets.has_next %}
-    <a href="?page={{buckets.next_page_number}}">▶</a>
-    <a href="?page={{buckets.paginator.num_pages}}">{{buckets.paginator.num_pages}}</a>
+  <a href="?page={{buckets.next_page_number}}">▶</a>
+  <a href="?page={{buckets.paginator.num_pages}}">
+    {{buckets.paginator.num_pages}}
+  </a>
   {% endif %}
 </div>
 

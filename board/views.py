@@ -125,26 +125,13 @@ def deleteComment(request,postId,commentId):
     deleteComment = get_object_or_404(Comment,pk=commentId)
     deleteComment.delete() #삭제해주는 메소드
     return redirect("detailPage",postId)
-'''
-#검색
-class SearchFormView(FormView):
-    form_class = PostSearchForm
-    template_name = 'search.html'
-
-    def form_valid(self, form):
-        searchWord = form.cleaned_data['search_word']
-        post_list = Post.objects.filter(Q(title__icontains=searchWord) | Q(body__icontains=searchWord) ).distinct().order_by('-id')
-
-        context = {}
-        context['form'] = form
-        context['search_term'] = searchWord
-        context['object_list'] = post_list
-
-        return render(self.request, self.template_name, context)'''
 
 def SearchFormView(request):
     list = Post.objects.all()
     search_key = request.GET.get('search_key') # 검색어 가져오기
     if search_key: # 만약 검색어가 존재하면
         list = list.filter(Q(title__icontains=search_key) | Q(body__icontains=search_key) ).distinct().order_by('-id')# 해당 검색어를 포함한 queryset 가져오기
-    return render(request, 'search.html', {'list':list})
+    paginator = Paginator(list, 10)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+    return render(request, 'search.html', {'list':list,'search_key':search_key,'posts':posts})

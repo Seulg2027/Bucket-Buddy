@@ -19,47 +19,40 @@
           </ol>
         </nav>
     </div>
-    {% if cate == "free"%}<h1>자유게시판</h1>
-    {% elif cate == "review"%}<h1>후기 게시판</h1>
-    {% elif cate == "suggest"%}<h1>건의 게시판</h1>
-    {% else %} <h1>전체게시판</h1>
-    {%endif%}
-    <style>
-        #unit{
-            margin:auto;
-            margin-bottom: 70px;
-            margin-top: 30px;
-            border:1px solid  rgb(179, 108, 108);
-            width:400px;
-            height: 100px;
-            padding-top:40px;
-        }
-    </style>
-
+   
     <!--로그인 한 사람만 글작성하기 뜨도록-->
-    <br>
+   
+<div class="col-lg-12">
     {% if user.is_authenticated %}
-    <div class="btn btn-primary btn-rounded">
-        <a href="{% url 'newPost' cate%}" style="color: white;">글 작성하기</a>
-    </div>
-    {%endif%}
-
-    {% for unit in posts %}<!--근데 여기서는 항목별로 보이게 하려고 for문 써줌-->
-        
-    <div id=unit>
-        제목 | {{unit.title}}<br> 
-        
-        {% if unit.hideName == False %}
-            {{unit.writer}}
-        {% else %} 
-          익명
-        {% endif %}
-        글 |  {{unit.summary}} 
-        <a class="toNext" href="{% url 'detailPage' unit.id%}">...더보기</a><br>
-    </div>
-        {% endfor %}
+      <h2 class="mb-3"> <a href="{% url 'newPost' cate%}" style="color: white;">글 작성하기</a></h2>
     
-
+        {%endif%}
+      <div class="grid">
+        <div class="item-wrapper">
+          <div class="table-responsive">
+            <table class="table info-table">
+              <thead>
+                <tr>
+                  <th style="width: 10%;">제목</th>
+                  <th style="width: 10%;">작성자</th>
+                  <th style="width: 70%;">내용</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for unit in posts %}
+                  <tr> 
+                    <td style="width: 10%;">{{unit.title}}</td>
+                    <td style="width: 10%;">{{unit.writer}}</td>
+                    <td style="width: 70%;"><a class="toNext" href="{% url 'detailPage' unit.id%}">{{unit.summary}}</a> </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="page">
     {% if posts.has_previous %}
         <!--이전페이지가 있다면-->

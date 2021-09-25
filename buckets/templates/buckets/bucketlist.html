@@ -1,6 +1,67 @@
 {% extends 'shared/base.html' %}
 {% load static %}
 {% block content %}
+<style>
+  .memo {
+    width: 190px;
+    height: 100px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    top: 140px;
+    margin: 0 5px 0 8px;
+  }
+  .memo_header {
+    width: 190px;
+    height: 10px;
+    z-index: 3;
+    background-color: white;
+    opacity: 0.2;
+  }
+  #travel {
+    background-color: #0177B5;
+    float: left;
+    height: 230px;
+  }
+  #develop {
+    background-color: #847AFF;
+    float: left;
+  }
+  #leisure {
+    background-color: #4BCEAC;
+    float: left;
+    height: 100px;
+  }
+  #healthy {
+    background-color: #FE6F59;
+    float: left;
+  }
+  #love {
+    background-color: #DB4F4A;
+    float: left;
+  }
+  #society {
+    background-color: #E94C89;
+    float: left;
+    height: 170px;
+  }
+  #dream {
+    background-color: #0454F6;
+    float: left;
+  }
+  #family {
+    background-color: #ED4332;
+    float: left;
+  }
+  #more {
+    background-color: #223B61;
+  }
+  .memo a {
+    color: white;
+    margin: 10px 0 0 10px;
+    font-size: 20px;
+  }
+</style>
+
 <div class="viewport-header">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb has-arrow">
@@ -13,40 +74,51 @@
 </div>
 <div>
   {% if user.is_authenticated %}
-    <div class="btn btn-success btn-rounded">
-      <a href="{% url 'buckets:write' %}" style="text-decoration: none; font-size: 16px;">
+    <div class="btn btn-success btn-rounded" style="position: fixed;">
+      <a href="{% url 'buckets:write' %}" style="color:white; font-size: 16px;">
         버킷리스트 작성하기
       </a>
     </div>
   {% else %}
   {% endif %}
-  <div>
-    <a href="{% url 'buckets:detail' 'travel' %}">여행</a>
+  <div id="travel" class="memo">
+    <div class="memo_header"></div>
+    <a href="{% url 'buckets:detail' 'travel' %}">
+      여행
+    </a>
   </div>
-  <div>
+  <div id="develop" class="memo">
+    <div class="memo_header"></div>
     <a href="{% url 'buckets:detail' 'develop' %}">자기 개발</a>
   </div>
-  <div>
+  <div id="leisure" class="memo">
+    <div class="memo_header"></div>
     <a href="{% url 'buckets:detail' 'leisure' %}">여가</a>
   </div>
-  <div>
+  <div id="healthy" class="memo">
+    <div class="memo_header"></div>
     <a href="{% url 'buckets:detail' 'healthy' %}">건강</a>
   </div>
-  <div>
+  <div id="love" class="memo">
+    <div class="memo_header"></div>
     <a href="{% url 'buckets:detail' 'love' %}">사랑</a>
   </div>
-  <div>
+  <div id="society" class="memo mt-3">
+    <div class="memo_header"></div>
     <a href="{% url 'buckets:detail' 'society' %}">사회</a>
   </div>
-  <div>
+  <div id="dream" class="memo mt-3">
+    <div class="memo_header"></div>
     <a href="{% url 'buckets:detail' 'dream' %}">꿈</a>
   </div>
-  <div>
+  <div id="family" class="memo mt-3">
+    <div class="memo_header"></div>
     <a href="{% url 'buckets:detail' 'family' %}">가족</a>
   </div>
-  <div>
+  <!-- <div id="more" class="memo mt-5">
+    <div class="memo_header"></div>
     <a href="{% url 'buckets:detail' 'more' %}">기타</a>
-  </div>
+  </div> -->
 </div>
 
 {% endblock %}
