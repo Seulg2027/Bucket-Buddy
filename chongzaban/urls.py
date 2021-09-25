@@ -26,5 +26,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')), # allauth
     path('buckets/', include('buckets.urls')), # bucketlist
     path('user/', include('user.urls')), # user
-    path('board/', include('board.urls')),#게시판
+    path('board/', include('board.urls')),# 게시판
+    path('room/', include('room.urls')),# 채팅방
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
